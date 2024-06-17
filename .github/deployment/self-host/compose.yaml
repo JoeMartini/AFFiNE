@@ -6,7 +6,7 @@ services:
       ['sh', '-c', 'node ./scripts/self-host-predeploy && node ./dist/index.js']
     ports:
       - '43010:3010'
-      - '45555:5555'
+      - '5555:5555'
     depends_on:
       redis:
         condition: service_healthy
