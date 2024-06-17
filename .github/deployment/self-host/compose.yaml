@@ -5,8 +5,8 @@ services:
     command:
       ['sh', '-c', 'node ./scripts/self-host-predeploy && node ./dist/index.js']
     ports:
-      - '3010:3010'
-      - '5555:5555'
+      - '43010:3010'
+      - '45555:5555'
     depends_on:
       redis:
         condition: service_healthy
@@ -14,9 +14,9 @@ services:
         condition: service_healthy
     volumes:
       # custom configurations
-      - ~/.affine/self-host/config:/root/.affine/config
+      - /app/AFFiNE/self-host/config:/root/.affine/config
       # blob storage
-      - ~/.affine/self-host/storage:/root/.affine/storage
+      - /app/AFFiNE/self-host/storage:/root/.affine/storage
     logging:
       driver: 'json-file'
       options:
@@ -38,7 +38,7 @@ services:
     container_name: affine_redis
     restart: unless-stopped
     volumes:
-      - ~/.affine/self-host/redis:/data
+      - /app/AFFiNE/self-host/redis:/data
     healthcheck:
       test: ['CMD', 'redis-cli', '--raw', 'incr', 'ping']
       interval: 10s
@@ -49,7 +49,7 @@ services:
     container_name: affine_postgres
     restart: unless-stopped
     volumes:
-      - ~/.affine/self-host/postgres:/var/lib/postgresql/data
+      - /app/AFFiNE/self-host/postgres:/var/lib/postgresql/data
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U affine']
       interval: 10s
