@@ -275,6 +275,7 @@ export enum ErrorNames {
   MISSING_OAUTH_QUERY_PARAMETER = 'MISSING_OAUTH_QUERY_PARAMETER',
   NOT_IN_WORKSPACE = 'NOT_IN_WORKSPACE',
   NO_COPILOT_PROVIDER_AVAILABLE = 'NO_COPILOT_PROVIDER_AVAILABLE',
+  OAUTH_ACCOUNT_ALREADY_CONNECTED = 'OAUTH_ACCOUNT_ALREADY_CONNECTED',
   OAUTH_STATE_EXPIRED = 'OAUTH_STATE_EXPIRED',
   PAGE_IS_NOT_PUBLIC = 'PAGE_IS_NOT_PUBLIC',
   RUNTIME_CONFIG_NOT_FOUND = 'RUNTIME_CONFIG_NOT_FOUND',
@@ -1390,6 +1391,23 @@ export type GetCopilotSessionsQuery = {
   } | null;
 };
 
+export type GetCurrentUserFeaturesQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetCurrentUserFeaturesQuery = {
+  __typename?: 'Query';
+  currentUser: {
+    __typename?: 'UserType';
+    id: string;
+    name: string;
+    email: string;
+    emailVerified: boolean;
+    avatarUrl: string | null;
+    features: Array<FeatureType>;
+  } | null;
+};
+
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetCurrentUserQuery = {
@@ -1661,6 +1679,35 @@ export type LeaveWorkspaceMutationVariables = Exact<{
 export type LeaveWorkspaceMutation = {
   __typename?: 'Mutation';
   leaveWorkspace: boolean;
+};
+
+export type ListUsersQueryVariables = Exact<{
+  filter: ListUserInput;
+}>;
+
+export type ListUsersQuery = {
+  __typename?: 'Query';
+  users: Array<{
+    __typename?: 'UserType';
+    id: string;
+    name: string;
+    email: string;
+    features: Array<FeatureType>;
+    hasPassword: boolean | null;
+    emailVerified: boolean;
+    avatarUrl: string | null;
+    quota: {
+      __typename?: 'UserQuota';
+      humanReadable: {
+        __typename?: 'UserQuotaHumanReadable';
+        blobLimit: string;
+        historyPeriod: string;
+        memberLimit: string;
+        name: string;
+        storageQuota: string;
+      };
+    } | null;
+  }>;
 };
 
 export type PricesQueryVariables = Exact<{ [key: string]: never }>;
@@ -2086,6 +2133,11 @@ export type Queries =
       response: GetCopilotSessionsQuery;
     }
   | {
+      name: 'getCurrentUserFeaturesQuery';
+      variables: GetCurrentUserFeaturesQueryVariables;
+      response: GetCurrentUserFeaturesQuery;
+    }
+  | {
       name: 'getCurrentUserQuery';
       variables: GetCurrentUserQueryVariables;
       response: GetCurrentUserQuery;
@@ -2174,6 +2226,11 @@ export type Queries =
       name: 'invoicesQuery';
       variables: InvoicesQueryVariables;
       response: InvoicesQuery;
+    }
+  | {
+      name: 'listUsersQuery';
+      variables: ListUsersQueryVariables;
+      response: ListUsersQuery;
     }
   | {
       name: 'pricesQuery';

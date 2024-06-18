@@ -24,7 +24,7 @@ import {
   PageIcon,
   TodayIcon,
   ViewLayersIcon,
-} from '@blocksuite/icons';
+} from '@blocksuite/icons/rc';
 import type { DocRecord, Workspace } from '@toeverything/infra';
 import {
   GlobalContextService,
@@ -384,11 +384,7 @@ export const useSearchCallbackCommands = () => {
             const page = pageHelper.createPage('page', false);
             page.load();
             pageMetaHelper.setDocTitle(page.id, query);
-            mixpanel.track('DocCreated', {
-              control: 'cmdk',
-              type: 'doc',
-            });
-            onSelectPage({ docId: page.id });
+            onSelectPage({ docId: page.id, isNewDoc: true });
           },
           icon: <PageIcon />,
         });
