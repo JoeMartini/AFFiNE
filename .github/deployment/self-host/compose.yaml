@@ -69,5 +69,7 @@ services:
 
 networks:
   affine_network:
-    external:
-      name: bridge
+    name: affine_network
+    ipam:
+      config:
+        - subnet: 192.168.3.0/24
