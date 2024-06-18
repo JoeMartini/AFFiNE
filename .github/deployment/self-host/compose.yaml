@@ -33,6 +33,8 @@ services:
       # Telemetry allows us to collect data on how you use the affine. This data will helps us improve the app and provide better features.
       # Uncomment next line if you wish to quit telemetry.
       # - TELEMETRY_ENABLE=false
+    networks:
+      - affine_network
   redis:
     image: redis
     container_name: affine_redis
@@ -44,6 +46,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - affine_network
   postgres:
     image: postgres
     container_name: affine_postgres
@@ -60,3 +64,12 @@ services:
       POSTGRES_PASSWORD: affine
       POSTGRES_DB: affine
       PGDATA: /var/lib/postgresql/data/pgdata
+    networks:
+      - affine_network
+
+networks:
+  affine_network:
+    name: affine_network
+    ipam:
+      config:
+        - subnet: 192.168.3.0/24
