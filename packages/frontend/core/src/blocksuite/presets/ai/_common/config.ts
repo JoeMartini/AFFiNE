@@ -9,21 +9,21 @@ import {
 } from '@blocksuite/blocks';
 import type { TemplateResult } from 'lit';
 
-import { actionToHandler } from '../actions/doc-handler.js';
-import { actionToHandler as edgelessActionToHandler } from '../actions/edgeless-handler.js';
+import { actionToHandler } from '../actions/doc-handler';
+import { actionToHandler as edgelessActionToHandler } from '../actions/edgeless-handler';
 import {
   imageFilterStyles,
   imageProcessingTypes,
   textTones,
   translateLangs,
-} from '../actions/types.js';
-import { getAIPanel } from '../ai-panel.js';
-import { AIProvider } from '../provider.js';
+} from '../actions/types';
+import { getAIPanel } from '../ai-panel';
+import { AIProvider } from '../provider';
 import {
   getSelectedImagesAsBlobs,
   getSelectedTextContent,
   getSelections,
-} from '../utils/selection-utils.js';
+} from '../utils/selection-utils';
 import {
   AIDoneIcon,
   AIImageIcon,
@@ -45,7 +45,7 @@ import {
   SelectionIcon,
   ShorterIcon,
   ToneIcon,
-} from './icons.js';
+} from './icons';
 
 export const translateSubItem: AISubItemConfig[] = translateLangs.map(lang => {
   return {
@@ -453,8 +453,7 @@ export function buildAIImageItemGroups(): AIItemGroupConfig[] {
         {
           name: 'AI image filter',
           icon: ImproveWritingIcon,
-          showWhen: (_, __, host) =>
-            !!host.doc.awarenessStore.getFlag('enable_new_image_actions'),
+          showWhen: () => true,
           subItem: createImageFilterSubItem(blockActionTrackerOptions),
           subItemOffset: [12, -4],
           beta: true,
@@ -462,8 +461,7 @@ export function buildAIImageItemGroups(): AIItemGroupConfig[] {
         {
           name: 'Image processing',
           icon: AIImageIcon,
-          showWhen: (_, __, host) =>
-            !!host.doc.awarenessStore.getFlag('enable_new_image_actions'),
+          showWhen: () => true,
           subItem: createImageProcessingSubItem(blockActionTrackerOptions),
           subItemOffset: [12, -6],
           beta: true,
@@ -471,8 +469,7 @@ export function buildAIImageItemGroups(): AIItemGroupConfig[] {
         {
           name: 'Generate a caption',
           icon: AIPenIcon,
-          showWhen: (_, __, host) =>
-            !!host.doc.awarenessStore.getFlag('enable_new_image_actions'),
+          showWhen: () => true,
           beta: true,
           handler: actionToHandler(
             'generateCaption',

@@ -11,8 +11,8 @@ import { css, html, LitElement, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { createRef, type Ref, ref } from 'lit/directives/ref.js';
 
-import { getAIPanel } from '../ai-panel.js';
-import { PPTBuilder } from '../slides/index.js';
+import { getAIPanel } from '../ai-panel';
+import { PPTBuilder } from '../slides/index';
 
 export const createSlidesRenderer: (
   host: EditorHost,
@@ -214,6 +214,7 @@ export class AISlidesRenderer extends WithDisposable(LitElement) {
 
     const schema = new Schema().register(AffineSchemas);
     const collection = new DocCollection({ schema, id: 'SLIDES_PREVIEW' });
+    collection.meta.initialize();
     collection.start();
     const doc = collection.createDoc();
 
